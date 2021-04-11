@@ -1,8 +1,20 @@
 package com.customer.apicustomer.Entities;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
-public class Customer {
+@Entity
+@Table(name = "customer")
+public class Customer implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "customer_id", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_generator")
+    @SequenceGenerator(name="customer_generator", sequenceName = "customer_seq")
+    private int id;
 
     private String name;
 
@@ -14,10 +26,20 @@ public class Customer {
 
     private String passwordSalt;
 
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "customer_id")
     private List<Address> addressList;
 
     public String getName() {
         return name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {

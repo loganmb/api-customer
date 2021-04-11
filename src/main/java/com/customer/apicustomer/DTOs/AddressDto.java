@@ -1,44 +1,14 @@
-package com.customer.apicustomer.Entities;
+package com.customer.apicustomer.DTOs;
 
-import javax.persistence.*;
-import java.io.Serializable;
-
-@Entity
-@Table(name = "address")
-public class Address implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @Column(name = "address_id", unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_generator")
-    @SequenceGenerator(name="address_generator", sequenceName = "address_seq")
-    private int id;
+public class AddressDto {
 
     private String street;
-
     private String number;
-
     private String district;
-
     private String state;
-
     private String country;
-
     private String postalCode;
-
     private String complement;
-
-    @Transient
-    private Customer customer;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getStreet() {
         return street;
@@ -94,14 +64,5 @@ public class Address implements Serializable {
 
     public void setComplement(String complement) {
         this.complement = complement;
-    }
-
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 }
