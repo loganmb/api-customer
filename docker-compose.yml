@@ -1,0 +1,66 @@
+version: "3"
+#services:
+##  mysql image name
+#  customer-sql:
+#    image: customer-sql
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - customer-mysql-network
+#    depends_on:
+#      - mydb
+#
+#  mysqldb:
+#    image: mysql:8
+#    networks:
+#      - customer-mysql-network
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=root
+#      - MYSQL_DATABASE=mydb
+#
+#networks:
+#  employee-mysql:
+
+    # Define services
+    services:
+      # App backend service
+      app-server:
+        # Configuration for building the docker image for the backend service
+        build:
+          context: '' # Use an image built from the specified dockerfile in the `api-customer` directory.
+          dockerfile: Dockerfile
+        ports:
+          - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+        restart: always
+        depends_on:
+          - mydb # This service depends on mysql. Start that first.
+        environment: # Pass environment variables to the service
+          SPRING_DATASOURCE_URL: jdbc:mysql://mydb:3306/mydb?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false?createDatabaseIfNotExist=true&autoReconnect=true
+          SPRING_DATASOURCE_USERNAME: root
+          SPRING_DATASOURCE_PASSWORD: root
+        networks: # Networks to join (Services on the same network can communicate with each other using their name)
+          - customer-sql
+
+      # Database Service (Mysql)
+      db:
+        image: mysql:8.0.16
+        ports:
+          - "3306:3306"
+        restart: always
+        environment:
+          MYSQL_DATABASE: pdv
+          MYSQL_USER: root
+          MYSQL_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: root
+        volumes:
+          - db-data:/var/lib/mysql
+        networks:
+          - customer-sql
+
+    # Volumes
+    volumes:
+      db-data:
+
+    # Networks to be created to facilitate communication between containers
+    networks:
+      customer-sql:
