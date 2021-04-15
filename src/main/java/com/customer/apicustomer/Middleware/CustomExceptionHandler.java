@@ -9,6 +9,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -37,5 +38,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(
                 ex, apiException, headers, apiException.getStatus(), request);
     }
+
+    @ExceptionHandler({ Exception.class })
+    public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
+        ApiException apiError = new ApiException(
+          HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), ex.getMessage());
+        return new ResponseEntity<Object>(
+          apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
 
 }

@@ -34,7 +34,6 @@ class ApiCustomerApplicationTests {
         customer.setCpf("12345678912");
         customer.setUserName("usertest");
         customer.setPasswordHash("arfhug-qethuq-etjh");
-        customer.setPasswordSalt("jar-0gaergn-q9regh");
 
         Address address = new Address();
 

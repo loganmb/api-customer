@@ -1,7 +1,5 @@
 package com.customer.apicustomer.DTOs;
 
-import com.customer.apicustomer.Entities.Address;
-
 import java.util.List;
 
 public class RegisterDto {

@@ -20,11 +20,10 @@ public class Customer implements Serializable {
 
     private String cpf;
 
+    @Column(unique = true)
     private String userName;
 
     private String passwordHash;
-
-    private String passwordSalt;
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "customer_id")
@@ -68,14 +67,6 @@ public class Customer implements Serializable {
 
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
-    }
-
-    public String getPasswordSalt() {
-        return passwordSalt;
-    }
-
-    public void setPasswordSalt(String passwordSalt) {
-        this.passwordSalt = passwordSalt;
     }
 
     public List<Address> getAddressList() {
